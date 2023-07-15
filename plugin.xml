@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="@tokenized/cordova-plugin-attestation-tokens" version="0.1.0">
+  <name>AttestationTokens</name>
+  <description>Cordova plugin for obtaining attestation tokens from Firebase App Check</description>
+  <license>MIT</license>
+  <keywords>cordova,plugin,android,ios,attestation,firebase,app-check</keywords>
+  <repo>https://github.com/tokenized/cordova-plugin-attestation-tokens</repo>
+  <issue>https://github.com/tokenized/cordova-plugin-attestation-tokens/issues</issue>
+
+  <js-module src="www/AttestationTokens.js" name="AttestationTokens">
+    <clobbers target="AttestationTokens"/>
+  </js-module>
+
+  <!-- ios -->
+  <platform name="ios">
+    <preference name="IOS_FIREBASE_POD_VERSION" default="10.11.0" />
+
+    <header-file src="src/ios/Bridging-Header.h" type="BridgingHeader"/>
+    <source-file src="src/ios/AttestationTokens.swift"/>
+
+    <config-file target="config.xml" parent="/*">
+      <feature name="AttestationTokens">
+        <param name="ios-package" value="AttestationTokens"/>
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
+
+    <podspec>
+      <config>
+        <source url="https://cdn.cocoapods.org/"/>
+      </config>
+      <pods use-frameworks="true">
+        <pod name="Firebase/AppCheck" spec="$IOS_FIREBASE_POD_VERSION" />
+      </pods>
+    </podspec>
+  </platform>
+
+  <!-- android -->
+  <platform name="android">
+    <preference name="ANDROID_FIREBASE_BOM_VERSION" default="32.1.1" />
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="AttestationTokens">
+        <param name="android-package" value="com.tokenized.cordova.attestation_tokens.AttestationTokens"/>
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
+
+    <framework src="platform('com.google.firebase:firebase-bom:$ANDROID_FIREBASE_BOM_VERSION')" />
+    <framework src="com.google.firebase:firebase-appcheck-playintegrity" />
+    <framework src="com.google.firebase:firebase-appcheck-debug" />
+    <source-file src="src/android/AttestationTokens.java" target-dir="src/com/tokenized/cordova/attestation_tokens"/>
+  </platform>
+
+  <hook src="scripts/debugSwitch.js" type="after_prepare" />
+</plugin>

@@ -1,0 +1,35 @@
+{
+  "name": "@tokenized/cordova-plugin-attestation-tokens",
+  "version": "0.1.0",
+  "description": "Cordova plugin for obtaining attestation tokens from Firebase App Check",
+  "cordova": {
+    "id": "@tokenized/cordova-plugin-attestation-tokens",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tokenized/cordova-plugin-attestation-tokens"
+  },
+  "keywords": [
+    "cordova",
+    "plugin",
+    "android",
+    "ios",
+    "attestation",
+    "firebase",
+    "app-check",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/tokenized/cordova-plugin-attestation-tokens#readme",
+  "devDependencies": {
+    "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "^2.8.8"
+  }
+}
