@@ -1,6 +1,20 @@
 var fs = require('fs');
 var path = require('path');
 
+function getiOSProjectFolder() {
+  // Find project name in config.xml
+  const config = fs.readFileSync('config.xml').toString();
+  let matches = config.match(/<name>(.*?)<\/name>/i);
+  if (!matches) {
+    matches = config.match(/<name short=".*?">(.*?)<\/name>/i);
+  }
+  if (!matches) {
+    throw new Error('Unable to find project name in config.xml');
+  }
+  const projectName = (matches && matches[1]) || null;
+  return `platforms/ios/${projectName}`;
+}
+
 const editsByPlatform = {
   android: {
     file: 'plugins/@tokenized/cordova-plugin-attestation-tokens/src/android/AttestationTokens.java',
@@ -10,7 +24,10 @@ const editsByPlatform = {
       'firebaseAppCheck.installAppCheckProviderFactory(PlayIntegrityAppCheckProviderFactory.getInstance());',
   },
   ios: {
-    file: 'plugins/@tokenized/cordova-plugin-attestation-tokens/src/ios/AttestationTokens.swift',
+    file: path.join(
+      getiOSProjectFolder(),
+      'Plugins/@tokenized/cordova-plugin-attestation-tokens/AttestationTokens.swift',
+    ),
     debug: 'let providerFactory = AppCheckDebugProviderFactory()',
     release: 'let providerFactory = AttestationTokensAppCheckProviderFactory()',
   },
