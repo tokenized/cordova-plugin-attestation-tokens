@@ -1,5 +1,5 @@
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
 
 function getiOSProjectFolder() {
   // Find project name in config.xml
@@ -17,7 +17,7 @@ function getiOSProjectFolder() {
 
 const editsByPlatform = {
   android: {
-    file: 'plugins/@tokenized/cordova-plugin-attestation-tokens/src/android/AttestationTokens.java',
+    file: 'platforms/android/app/src/main/java/com/tokenized/cordova/attestation_tokens/AttestationTokens.java',
     debug:
       'firebaseAppCheck.installAppCheckProviderFactory(DebugAppCheckProviderFactory.getInstance());',
     release:
