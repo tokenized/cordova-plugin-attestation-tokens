@@ -1,6 +1,6 @@
 {
   "name": "@tokenized/cordova-plugin-attestation-tokens",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Cordova plugin for obtaining attestation tokens from Firebase App Check",
   "cordova": {
     "id": "@tokenized/cordova-plugin-attestation-tokens",
