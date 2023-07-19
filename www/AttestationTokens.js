@@ -1,5 +1,7 @@
 /* global cordova */
 
+const timeToCacheAttestationResult = 60 * 1000;
+
 class AttestationTokens {
   constructor() {
     this.debugOn = false;
@@ -55,7 +57,35 @@ class AttestationTokens {
    * @returns {Promise<string>}
    */
   async getToken() {
-    return await this.execNative('getToken');
+    if (this.newTokenPromise) {
+      return await this.newTokenPromise;
+    }
+
+    if (
+      this.lastTokenTimestamp &&
+      Date.now() - this.lastTokenTimestamp < timeToCacheAttestationResult
+    ) {
+      if (this.lastTokenError) {
+        throw this.lastTokenError;
+      }
+      return this.lastToken;
+    }
+
+    try {
+      this.newTokenPromise = this.execNative('getToken');
+      const token = await this.newTokenPromise;
+      this.newTokenPromise = null;
+      this.lastToken = token;
+      this.lastTokenError = null;
+      this.lastTokenTimestamp = Date.now();
+      return token;
+    } catch (error) {
+      this.newTokenPromise = null;
+      this.lastToken = null;
+      this.lastTokenError = error;
+      this.lastTokenTimestamp = Date.now();
+      throw error;
+    }
   }
 
   /**
